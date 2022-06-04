@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.general.base.BaseFragment
+import com.example.general.base.SingleLiveData
+import com.example.general.data.models.Model
 import com.example.general.databinding.FragmentSecondBinding
-import com.example.general.ui.fragments.main.MainViewModel
 
 class SecondFragment : BaseFragment<FragmentSecondBinding>() {
 
@@ -16,19 +17,21 @@ class SecondFragment : BaseFragment<FragmentSecondBinding>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSecondBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun setupListener() {
         binding.btn.setOnClickListener {
-            findNavController().navigate(
-                SecondFragmentDirections.actionSecondFragmentToMainFragment(
-                    binding.etEt.text.toString(), binding.etSecond.text.toString()
-                )
+            val bundle = Bundle()
+            bundle.putString("name", binding.etEt.text.toString())
+            bundle.putString("surname", binding.etSecond.text.toString())
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                "key",
+                bundle
             )
+            findNavController().navigateUp()
         }
-
     }
 }

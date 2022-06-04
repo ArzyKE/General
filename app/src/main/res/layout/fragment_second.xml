@@ -8,6 +8,7 @@
     <EditText
         android:id="@+id/et_et"
         android:layout_width="match_parent"
+        android:hint="name"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 
@@ -15,6 +16,7 @@
         android:id="@+id/et_second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Surname"
         android:layout_below="@id/et_et"
         android:layout_centerInParent="true" />
 

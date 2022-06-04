@@ -1,6 +1,5 @@
 package com.example.general.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -45,14 +44,12 @@ class RecyclerAdapter :
 
     object DiffUtilCallBack : DiffUtil.ItemCallback<Model>() {
         override fun areItemsTheSame(oldItem: Model, newItem: Model): Boolean {
-            return oldItem.name === newItem.name
+            return oldItem.name == newItem.name
         }
 
-        @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: Model, newItem: Model): Boolean {
-            return oldItem === newItem
+            return oldItem == newItem
         }
     }
-
 }
 

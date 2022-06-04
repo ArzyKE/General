@@ -9,7 +9,11 @@ class MainViewModel : ViewModel() {
     val liveData = MutableLiveData<ArrayList<Model>>()
     val list = ArrayList<Model>()
 
-    fun createData() {
+    init {
+        createData()
+    }
+
+    private fun createData() {
         list.add(Model("jdlkf", "dflkd"))
         list.add(Model("dsafafd", "dflkd"))
         list.add(Model("were", "dflkd"))

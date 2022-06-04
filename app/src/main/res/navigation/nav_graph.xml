@@ -10,14 +10,6 @@
         android:name="com.example.general.ui.fragments.main.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main">
-        <argument
-            android:name="name"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="surename"
-            android:defaultValue=" "
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/secondFragment"
@@ -26,6 +18,8 @@
         tools:layout="@layout/fragment_second">
         <action
             android:id="@+id/action_secondFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/nav_graph.xml"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

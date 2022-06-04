@@ -1,12 +1,12 @@
 package com.example.general.ui.fragments.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.general.R
 import com.example.general.base.BaseFragment
 import com.example.general.data.models.Model
@@ -18,8 +18,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     override lateinit var binding: FragmentMainBinding
     private lateinit var viewModel: MainViewModel
-    private val adapter = RecyclerAdapter()
-    private val args: MainFragmentArgs by navArgs()
+    private val recyclerAdapter = RecyclerAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,17 +29,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         return binding.root
     }
 
-
-    private fun getDataFromSecondFragment() {
-        viewModel.list.add(Model(args.name, args.surename))
-    }
-
     override fun setupListener() {
         itemClickListener()
     }
 
     private fun itemClickListener() {
-        adapter.onItemClickListener(object : ItemClick {
+        recyclerAdapter.onItemClickListener(object : ItemClick {
             override fun onItemClickListener(model: Model) {
                 findNavController().navigate(R.id.secondFragment)
             }
@@ -47,15 +42,30 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     override fun setupViews() {
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.adapter = recyclerAdapter
     }
 
     override fun setupReguest() {
-        viewModel.createData()
-        viewModel.liveData.observe(viewLifecycleOwner) { list ->
-            adapter.submitList(list)
-
-        }
         getDataFromSecondFragment()
+        viewModel.liveData.observe(viewLifecycleOwner) { list ->
+            recyclerAdapter.submitList(list)
+            Log.e("tag", viewModel.list.size.toString())
+        }
     }
+
+    private fun getDataFromSecondFragment() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bundle>("key")
+            ?.observe(
+                viewLifecycleOwner
+            ) { result ->
+                viewModel.list.add(
+                    Model(
+                        result.getString("name")!!,
+                        result.getString("surname")!!
+                    )
+                )
+            }
+    }
+
+
 }
